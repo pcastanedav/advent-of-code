@@ -1,0 +1,16 @@
+{
+  "name": "advent-of-code",
+  "version": "1.0.0",
+  "description": "Advent of Code 2021",
+  "main": "index.js",
+  "repository": "git@github.com:pcastanedav/advent-of-code.git",
+  "author": "Pablo Castañeda Valdés <pablo.castaneda.valdes@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "caller-id": "^0.1.0",
+    "lazy.js": "^0.5.1",
+    "lodash": "^4.17.21",
+    "lodash-contrib": "^4.1200.1"
+  }
+}
