@@ -32,10 +32,9 @@ export function linesToBinaryArray(lines) {
   return lines.map(line => line.split(''))
 }
 
+export const readLines = (url, name) => inputAsLazyLines(getInputPath(url, name))
 export const readNumbersFromInput = pipeline(getInputPath, inputAsLazyLines, linesToNumbers)
-
 export const readBinariesFromInput = pipeline(getInputPath, inputAsLazyLines, linesToBinaryArray)
-
 export const readDirectionsFromInput = pipeline(getInputPath, inputAsLazyLines, linesToDirections)
 
 export const inc = (a, b) => a + b
