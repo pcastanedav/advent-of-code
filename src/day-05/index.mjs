@@ -1,86 +1,98 @@
-import {readLines, inc} from '../helpers/streams.mjs'
+import {readLines, inc, dec} from '../helpers/streams.mjs'
 import Lazy from 'lazy.js'
 
-const readings = await readLines(import.meta.url, 'input.test')
+const readings = await readLines(import.meta.url, 'input')
 
-const ventSegments = await readings.map(line => line.split(' -> ').map(parsePoint)).toArray()
+class Segment {
 
-const ventPoints = ventSegments.map(s => getPoints(s))
-
-const pointsMap = ventPoints.reduce(accPoints, {})
-const overlapPoints = Object.values(pointsMap).filter(a => a > 1).length
-console.log('Part 1: ', overlapPoints)
-
-
-const ventAllPoints = ventSegments.map(s => getPoints(s, true))
-const allPointsMap = ventAllPoints.reduce(accPoints,{})
-
-const screen = Lazy('....................................................................................................'.split('')).chunk(10).toArray()
-
-for (let y = 0; y < screen.length; y++) {
-  const line = screen[y]
-  for (let x = 0; x < line.length; x++) {
-    line[x] = allPointsMap[`${x}.${y}`] || '.'
+  constructor([a, b]) {
+    this.a = a
+    this.b = b
+    this.dX = Math.abs(this.a.x - this.b.x)
+    this.dY = Math.abs(this.a.y - this.b.y)
+    this.slope = this.dX && this.dY / this.dX 
   }
-}
 
-screen.forEach(line => {
-  console.log(line.join(''))
-})
-
-function parsePoint(raw) { return raw.split(',').map(a => parseInt(a)) }
-
-function getPoints([[x1, y1], [x2, y2]], allowSlope = false) {
-  const a = {x: x1, y: y1}
-  const b = {x: x2, y: y2}
-  const m = getSlope(a, b)
-  const deltaX = Math.abs(x2 - x1) + 1
-  const deltaY = Math.abs(y2 - y1) + 1
-  if (!allowSlope && m > 0) return []
-  let segments = []
-  if (deltaX > 1) {
-    const startPoint = a.x > b.x ? b : a
-    //segments = segments.concat(plotPointsX(deltaX, m, startPoint))
+  points () {
+    return this.slope
+      ? this.#diagonalPoints()
+      : this.dX
+        ? this.#horizontalPoints()
+        : this.#verticalPoints()
   }
-  if (deltaY > 1) {
-    const startPoint = a.y > b.y ? b : a
-    segments = segments.concat(plotPointsY(deltaY, m, startPoint))
-  }
-  if (allowSlope)
-    console.log(a, ' to ', b, m, segments)
-  return [...new Set(segments)]
-}
 
-function plotPointsY(delta, m, start) {
-    return Array(delta).fill(0).map((_,i) => {
-      const y = start.y + i
-      const x = get(m, start.x, i)
-      return `${x}.${y}`
+  #diagonalPoints() {
+    const x = this.a.x > this.b.x ? dec : inc
+    const y = this.a.y > this.b.y ? dec : inc
+    return Array(this.dX + 1).fill(0).map((_,i) => `${x(this.a.x, i)}.${y(this.a.y, i)}`)
+  }
+
+  #horizontalPoints() {
+    const x = Math.min(this.a.x, this.b.x)
+    return Array(this.dX + 1).fill(0).map((_,i) => `${i + x}.${this.a.y}`)
+  }
+
+  #verticalPoints() {
+    const y = Math.min(this.a.y, this.b.y)
+    return Array(this.dY + 1).fill(0).map((_,i) => `${this.a.x}.${i + y}`)
+  }
+
+  static create(points) {
+    return new Segment(points)
+  }
+
+  static parsePoint(raw) {
+    const [x, y] = raw.split(',').map(a => parseInt(a))
+    return {x, y}
+  }
+
+  static accumulatePoints (acc, points) {
+    points.forEach(point => {
+      if(acc[point]) acc[point] = acc[point] + 1
+      else acc[point] = 1
     })
+    return acc
+  }
+
+  static overlap (pointsMap) {
+    return Object.values(pointsMap).filter(n => n > 1).length
+  }
+
+  static plotPoints(points, size = 100) {
+    const plotLine = (line, y) => line.map((dot, x) => points[`${x}.${y}`] || dot)
+    const plot = Lazy(Array(size).fill('.')).chunk(10).map(plotLine)
+    plot.draw = () => plot.forEach(line => console.log(line.join('')))
+    return plot
+  }
+
 }
 
-function plotPointsX(delta, m, start) {
-    return Array(delta).fill(0).map((_,i) => {
-      const x = start.x + i
-      const y = getY(m, start.y, i)
-      return `${x}.${y}`
-    })
-}
 
-function getSlope(a, b) {
-  const dX = Math.abs(a.x - b.x)
-  return dX && Math.abs(a.y - b.y) / dX 
-}
+const ventSegments = await readings
+  .map(line => line.split(' -> ')
+  .map(Segment.parsePoint))
+  .map(Segment.create)
 
-function get(m, a, i) {
-  return m ? (m * i + a) : a 
-}
+const part1Points = await ventSegments
+  .filter(s => s.slope == 0)
+  .map(s => s.points())
+  .reduce(Segment.accumulatePoints, {})
 
-function accPoints (acc, points) {
-  points.forEach(point => {
-    if(acc[point]) acc[point] = acc[point] + 1
-    else acc[point] = 1
-  })
-  return acc
-}
+const part1Overlap = Segment.overlap(part1Points)
+const part1Plot = Segment.plotPoints(part1Points)
 
+
+console.log('Part 1: ', part1Overlap)
+
+//part1Plot.draw()
+
+const part2Points = await ventSegments
+  .map(s => s.points())
+  .reduce(Segment.accumulatePoints, {})
+
+const part2Overlap = Segment.overlap(part2Points)
+const part2Plot = Segment.plotPoints(part2Points)
+
+console.log('Part 2: ', part2Overlap)
+
+//part2Plot.draw()
