@@ -9,6 +9,7 @@
   "private": false,
   "dependencies": {
     "caller-id": "^0.1.0",
+    "datastructures-js": "^10.1.1",
     "lazy.js": "^0.5.1",
     "lodash": "^4.17.21",
     "lodash-contrib": "^4.1200.1"

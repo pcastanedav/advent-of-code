@@ -2,12 +2,83 @@
 # yarn lockfile v1
 
 
+"@datastructures-js/binary-search-tree@^4.1.0", "@datastructures-js/binary-search-tree@^4.2.2":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@datastructures-js/binary-search-tree/-/binary-search-tree-4.3.1.tgz#b0842c1587773fd6e1c95f68cd0c2113dc984c44"
+  integrity sha512-YmxFM5zBz3E9vCnXUidDgOgUaWNqYBqjJp9EkAc3dInpNcq5qutVfJJxI3P4RDUl9DV6wzADN7shqIA1YQI93g==
+
+"@datastructures-js/graph@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@datastructures-js/graph/-/graph-5.1.1.tgz#76a14ff94a370dce6953645491d1542db321b144"
+  integrity sha512-sy3pTMEORBhxbdwTMqnlImbndnxmIXBOgJd9kUugYcKGiljskGLANy6ByMCodq/zIGVNDgD/FZDNZ6hmdafISw==
+  dependencies:
+    "@datastructures-js/queue" "^3.1.3"
+
+"@datastructures-js/heap@^3.1.1", "@datastructures-js/heap@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@datastructures-js/heap/-/heap-3.2.0.tgz#d8fcdbf58c462c8a3f0fdfd9c6a57ca11505321e"
+  integrity sha512-FcU5ZAyb+VIOZz1HABsJUsbJi2ZyUDO7aoe97hq4d3tK3z8nMgwdxf5bO0gafR0ExFi18YTspntqHLzt4XOgnA==
+
+"@datastructures-js/linked-list@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@datastructures-js/linked-list/-/linked-list-5.1.1.tgz#4e2131b41ef74a368fc1925374abec0dff009579"
+  integrity sha512-fj5vOozZX5Sw+Z7dJcicvQxMbWTuOizZ+dW+pMcYWMMgMiLERzJ3Zv6Tdn+VStej9ax6tq7LIQxKGiZyXMvWmg==
+  dependencies:
+    "@datastructures-js/binary-search-tree" "^4.1.0"
+
+"@datastructures-js/priority-queue@^5.1.1":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@datastructures-js/priority-queue/-/priority-queue-5.3.0.tgz#89afce79a19a3226c12cc6e9288f94ff60af26cf"
+  integrity sha512-0Dl0UooE9Uzz85qBP46HTjQHS5GN7NMNluN5/nMfxQAndG/1eNBJpBntLGT5QJarvMO3poLNBJzA3S4GPajp+w==
+  dependencies:
+    "@datastructures-js/heap" "^3.2.0"
+
+"@datastructures-js/queue@^3.1.3":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@datastructures-js/queue/-/queue-3.1.4.tgz#785bcbe29af6003934fd0e7849295d62543dba5d"
+  integrity sha512-8QqkdAJQDDd25OBX28lKj7HXD+Cxs6Ee0ogJkZUjD5R1fAvRAWsrCeKop0szqANYjMwdQQd75vyc3Cm8qNJH+Q==
+
+"@datastructures-js/queue@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@datastructures-js/queue/-/queue-4.1.3.tgz#57bb502621de88ad3f55c9f094e76a36966cd6ca"
+  integrity sha512-vvtwLDJ+R53i+vXr7llIXm2cLI0LzaN9edeJ7sEzti4TQUj/3Bpgp1mJKhWA8CWpW09sysvASab0kPP2cEbjNg==
+
+"@datastructures-js/set@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@datastructures-js/set/-/set-4.1.1.tgz#c3f0ebc24e248b56e92f8204c45623824ebd5d8d"
+  integrity sha512-++5tT32/hlbDyv0mgj4PQsgUG8TALtz6OnCMEbk1/dS1cFl3VUeye1Dx4af5L55UzGfCp1yknQjvRjtIkgzW2w==
+
+"@datastructures-js/stack@^3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@datastructures-js/stack/-/stack-3.1.2.tgz#c27ad9a044ea9272dbe821c8d3a6646927c5e9b9"
+  integrity sha512-lrLR7wMROZ5ad4iXoX0JktyNTg3cQTjVTlqLiqKzVNipXsyPrlUjPtUsOVLpzHPzQ3IgtDvbejrFpINLiB35vw==
+
+"@datastructures-js/trie@^4.1.1":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@datastructures-js/trie/-/trie-4.2.0.tgz#d1d42694befa43bae4aa5d2f6d7bc3ca944cb279"
+  integrity sha512-IYn0XTl25ZMmBQNuw15khMPFiL9zf+poDYyWjDN1EJQrqvstSW0yX28/+EnB220bZswE0A4OvnfOWZL0xQ0qHQ==
+
 caller-id@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/caller-id/-/caller-id-0.1.0.tgz#59bdac0893d12c3871408279231f97458364f07b"
   integrity sha1-Wb2sCJPRLDhxQIJ5Ix+XRYNk8Hs=
   dependencies:
     stack-trace "~0.0.7"
+
+datastructures-js@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/datastructures-js/-/datastructures-js-10.1.1.tgz#bde78042fb8eaf6596073bbf78c3d07317aebda3"
+  integrity sha512-TVfNYZxkxr9Y/YTluua7EcgVWpo97IzNpCy6C30kVJ659ha5C/4GcYZm7Iak4CWMVh+Eh2tJ75Tvrn3Us2ui4A==
+  dependencies:
+    "@datastructures-js/binary-search-tree" "^4.2.2"
+    "@datastructures-js/graph" "^5.1.1"
+    "@datastructures-js/heap" "^3.1.1"
+    "@datastructures-js/linked-list" "^5.1.1"
+    "@datastructures-js/priority-queue" "^5.1.1"
+    "@datastructures-js/queue" "^4.1.3"
+    "@datastructures-js/set" "^4.1.1"
+    "@datastructures-js/stack" "^3.1.2"
+    "@datastructures-js/trie" "^4.1.1"
 
 lazy.js@^0.5.1:
   version "0.5.1"
