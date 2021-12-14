@@ -1,5 +1,7 @@
 import ci from 'caller-id'
 import {dirname, join} from 'path'
+import {open} from 'fs/promises'
+import {Buffer} from 'buffer'
 
 import lodash from 'lodash'
 import lazy from 'lazy.js'
@@ -11,6 +13,22 @@ const {readFile} = lazy
 export function getInputPath (url, name = 'input') {
   const directory = dirname(url).substring(7)
   return join(directory, name)
+}
+
+export async function* streamCharacters(path) {
+  const buffer = Buffer.alloc(10000)
+  const handle = await open(path, 'r')
+  const stats = await handle.stat()
+  const read = () => handle.read({buffer, length: buffer.size}).then(r => r.bytesRead)
+  let bytesRead = await read()
+  let previous = ''
+  while (bytesRead) {
+    const output = buffer.toString('utf8', 0, bytesRead)
+    yield previous + output
+    previous = output[0]
+    bytesRead = await read()
+  }
+  await handle.close()
 }
 
 export function inputAsLazyLines(path) {
