@@ -16,7 +16,7 @@ export function getInputPath (url, name = 'input') {
 }
 
 export async function* streamCharacters(path) {
-  const buffer = Buffer.alloc(10000)
+  const buffer = Buffer.alloc(2000000)
   const handle = await open(path, 'r')
   const stats = await handle.stat()
   const read = () => handle.read({buffer, length: buffer.size}).then(r => r.bytesRead)
