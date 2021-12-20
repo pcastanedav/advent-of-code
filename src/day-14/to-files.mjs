@@ -1,7 +1,6 @@
 import {readLines, streamCharacters, getInputPath} from '../helpers/streams.mjs'
 import {open, rename} from 'fs/promises'
 
-console.log(import.meta.url)
 const lines = await readLines(import.meta.url, 'input.test')
 
 const [starting] = await lines.take(1).toArray()
@@ -30,7 +29,7 @@ function applyRule (source) {
 
 async function applyRules (n) {
   console.time(`Proccessed in ${n + 1}`)
-  const getPath = target => getInputPath('file:///home/backup/outputs/', `outputs/polymer-${target}`)
+  const getPath = target => getInputPath('file:///run/media/pcastaneda/Seagate Backup Plus Drive/tmp/outputs', `outputs/polymer-${target}`)
   const chars = await streamCharacters(getPath('input'))
   const output = await open(getPath('output'), 'w')
   let c
@@ -45,7 +44,7 @@ async function applyRules (n) {
 }
 
 async function transform(starting, n) {
-  const startingFile = await open(getInputPath('file:///home/backup/outputs/', `outputs/polymer-input`), 'w')
+  const startingFile = await open(getInputPath('file:///run/media/pcastaneda/Seagate Backup Plus Drive/tmp/outputs', `outputs/polymer-input`), 'w')
   await startingFile.write(starting)
   await startingFile.sync()
   await startingFile.close()

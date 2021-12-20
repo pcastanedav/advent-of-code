@@ -1,43 +1,50 @@
 export default class Probe {
 
   constructor(initialPosition, target) {
-    console.log(target)
-    this.position = initialPosition
-    this.maxHeight = initialPosition.y
+    this.initialPosition = initialPosition
     this.target = target
   }
 
-  moveStep (velocity) {
-    this.position.x += velocity.x
-    const newHeight = this.position.y + velocity.y
-    this.maxHeight = Math.max(this.position.y, newHeight)
+  initialize(velocity) {
+    this.velocity = velocity
+    this.relation = 'behind'
+    this.position = {...this.initialPosition}
+    this.maxHeight = this.initialPosition.y
+  }
+
+  moveStep () {
+    this.position.x += this.velocity.x
+    const newHeight = this.position.y + this.velocity.y
+    this.maxHeight = Math.max(this.maxHeight, newHeight)
     this.position.y = newHeight
     this.velocity.y -= 1
-    this.velocity.x = velocity.x > 0
-      ? velocity.x - 1
-      : velocity.x < 0
-        ? velocity.x + 1
+    this.velocity.x = this.velocity.x > 0
+      ? this.velocity.x - 1
+      : this.velocity.x < 0
+        ? this.velocity.x + 1
         : 0
+    return this.relationToTarget()
   }
 
   relationToTarget() {
-    if (this.position.y < this.target.y.max) return 'passed' 
-    if (this.position.x > this.target.x.max) return 'passed'
-    if (this.position.x < this.target.x.min) return 'behind'
-    if (this.position.y > this.target.y.min) return 'behind' 
-    return 'within'
+    //console.log({...this.position},  {...this.target})
+    if (this.position.y < this.target.y.min) this.relation = 'passed'
+    else if (this.position.x > this.target.x.max) this.relation = 'passed'
+    else if (this.position.x < this.target.x.min) this.relation = 'behind'
+    else if (this.position.y > this.target.y.max) this.relation = 'behind'
+    else this.relation = 'within'
+    return this.relation
   }
 
   moveToTarget (velocity) {
     let path = []
-    let relation = this.relationToTarget()
-    const recordPosition = () => path.push({relation, position: this.position})
-    while (relation == 'behind') {
-      this.moveStep(velocity)
-      recordPosition()
-      relation = relationToTarget()
+    this.initialize(velocity)
+    while (this.moveStep() == 'behind') {
+      path.push({...this.position, relation: this.relation})
     }
-    return path
+    path.push({...this.position, relation: this.relation})
+    const hit = path.find(s => s.relation == 'within')
+    return {path, max: this.maxHeight, hit}
   }
 
 }
